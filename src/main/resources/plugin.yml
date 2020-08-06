@@ -1,0 +1,11 @@
+name: WordTail
+version: ${project.version}
+main: com.github.toylun.wordtail.WordTail
+api-version: 1.15
+commands:
+  listwt:
+    description: Wordtailプラグイン
+    usage: /listwt
+  setwt:
+    description: Wordtailプラグイン
+    usage: /serwt [player] [word]
