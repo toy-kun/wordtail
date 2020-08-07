@@ -9,11 +9,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 
 public final class WordTail extends JavaPlugin {
 
@@ -31,9 +29,9 @@ public final class WordTail extends JavaPlugin {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-        if(cmd.getName().equalsIgnoreCase("setwt")){
+        if(cmd.getName().equalsIgnoreCase("wtset")){
             if (args.length != 2) {
-                sender.sendMessage(ChatColor.RED + "error: setwd [player] [語尾]");
+                sender.sendMessage(ChatColor.RED + "error: wtset [player] [語尾]");
             }
             String player = args[0];
             String word = args[1];
@@ -49,10 +47,22 @@ public final class WordTail extends JavaPlugin {
             }
             getConfig().set("wordtail." + player, words);
             saveConfig();
+            sender.sendMessage(ChatColor.GREEN + player + "に語尾[" + word + "]を設定しました");
             return true;
         }
 
-        if(cmd.getName().equalsIgnoreCase("listwt")){
+        if(cmd.getName().equalsIgnoreCase("wtreset")){
+            if (args.length != 1) {
+                sender.sendMessage(ChatColor.RED + "error: wtreset [player]");
+            }
+            String player = args[0];
+            getConfig().set("wordtail." + player, new ArrayList<String>() );
+            saveConfig();
+            sender.sendMessage(ChatColor.GREEN + player + "の語尾をリセットしました");
+            return true;
+        }
+
+        if(cmd.getName().equalsIgnoreCase("wtlist")){
             ConfigurationSection wt_list = getConfig().getConfigurationSection("wordtail");
             if (wt_list == null) {
                 sender.sendMessage(ChatColor.GREEN + "No registered words.");
@@ -60,11 +70,14 @@ public final class WordTail extends JavaPlugin {
             }
             Set<String> players = wt_list.getKeys(false);
             for (Object player : players) {
-                String words = player + " : ";
-                for (String word : getConfig().getStringList("wordtail." + player)) {
-                    words += word + ", ";
+                List<String> word_list = getConfig().getStringList("wordtail." + player);
+                if (word_list.size() > 0) {
+                    String words = player + " : ";
+                    for (String word : word_list) {
+                        words += word + ", ";
+                    }
+                    sender.sendMessage(ChatColor.GREEN + words);
                 }
-                sender.sendMessage(ChatColor.GREEN + words);
             }
             return true;
         }

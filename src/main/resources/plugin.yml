@@ -3,9 +3,12 @@ version: ${project.version}
 main: com.github.toylun.wordtail.WordTail
 api-version: 1.15
 commands:
-  listwt:
-    description: Wordtailプラグイン
-    usage: /listwt
-  setwt:
-    description: Wordtailプラグイン
-    usage: /serwt [player] [word]
+  wtlist:
+    description: WordTail リスト取得
+    usage: /wtlist
+  wtset:
+    description: WordTail 語尾登録
+    usage: /wtset [player] [word]
+  wtreset:
+    description: WordTail 語尾登録リセット
+    usage: /wtset [player]
