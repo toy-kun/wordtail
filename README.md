@@ -42,5 +42,3 @@ wordtail:
 /wtreset [player]
 ```
 
-## Video tutorials
-https://youtu.be/U_wf_U-854A (Japanese)
