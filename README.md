@@ -16,7 +16,7 @@ However, it is recommended to build it for optimization.
 /wtlist
 ```
 
-* Register force word for specified player.
+* [OP]　Register force word for specified player.
 ```
 /wtset [player] [word]
 ex) 
@@ -37,7 +37,7 @@ wordtail:
         - ざます
 ```
 
-* Reset registered words.
+* [OP]　Reset registered words.
 ```
 /wtreset [player]
 ```
