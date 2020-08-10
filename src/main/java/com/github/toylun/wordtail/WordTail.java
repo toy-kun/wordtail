@@ -54,8 +54,13 @@ public final class WordTail extends JavaPlugin {
         if(cmd.getName().equalsIgnoreCase("wtreset")){
             if (args.length != 1) {
                 sender.sendMessage(ChatColor.RED + "error: wtreset [player]");
+                return false;
             }
             String player = args[0];
+            if (Bukkit.getPlayer(player) == null) {
+                sender.sendMessage(ChatColor.RED + "error: player [" + player + "] is not found.");
+                return false;
+            }
             getConfig().set("wordtail." + player, new ArrayList<String>() );
             saveConfig();
             sender.sendMessage(ChatColor.GREEN + player + "の語尾をリセットしました");
@@ -69,15 +74,20 @@ public final class WordTail extends JavaPlugin {
                 return true;
             }
             Set<String> players = wt_list.getKeys(false);
+            Boolean flg = true;
             for (Object player : players) {
                 List<String> word_list = getConfig().getStringList("wordtail." + player);
                 if (word_list.size() > 0) {
+                    flg = false;
                     String words = player + " : ";
                     for (String word : word_list) {
                         words += word + ", ";
                     }
                     sender.sendMessage(ChatColor.GREEN + words);
                 }
+            }
+            if (flg) {
+                sender.sendMessage(ChatColor.GREEN + "No registered words.");
             }
             return true;
         }

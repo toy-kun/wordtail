@@ -7,8 +7,8 @@ import java.util.List;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-
-import java.util.regex.Pattern;
+import org.bukkit.entity.Player;
+import org.bukkit.GameMode;
 
 public class WordTailListener implements Listener {
     final WordTail plugin;
@@ -20,9 +20,9 @@ public class WordTailListener implements Listener {
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent e) {
         String msg = e.getMessage();
-        String sender = e.getPlayer().getName();
-        List<String> words = plugin.getConfig().getStringList("wordtail." + sender);
-        if (words == null) {
+        Player sender = e.getPlayer();
+        List<String> words = plugin.getConfig().getStringList("wordtail." + sender.getName());
+        if (words == null || words.size() == 0) {
             return;
         }
         Boolean flg = false;
@@ -32,7 +32,20 @@ public class WordTailListener implements Listener {
                 return;
             }
         }
-        e.setMessage("[不適切な発言がありました]");
+        // Action.
+        switch (sender.getGameMode()) {
+            case ADVENTURE:
+            case SURVIVAL:
+                e.setMessage("[不適切な発言]");
+                Bukkit.getScheduler().runTask(plugin, new PunishRunnable(sender));
+                break;
+            case CREATIVE:
+            case SPECTATOR:
+                e.setMessage("[不適切な発言]");
+                break;
+        }
+
         return;
     }
+
 }

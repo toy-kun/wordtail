@@ -9,6 +9,8 @@ commands:
   wtset:
     description: WordTail 語尾登録
     usage: /wtset [player] [word]
+    default: op
   wtreset:
     description: WordTail 語尾登録リセット
     usage: /wtset [player]
+    default: op
